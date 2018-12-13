@@ -18,7 +18,10 @@ public class EmployeeRepository {
     private Statement stm = conn.createStatement();
     private PreparedStatement insertEmplStm = conn.prepareStatement(
             "INSERT INTO employees(emp_no,birth_date,first_name,last_name,gender,hire_date,phone_number,email_adress)" +
-                    "VALUES(?,?,?,?,?,?)");
+                    "VALUES(?,?,?,?,?,?,?,?)");
+//    private PreparedStatement insertEmplStm = conn.prepareStatement(
+//            "DELETE FROM employees WHERE emp_no = " + e.getEmplNo()INSERT INTO employees(emp_no,birth_date,first_name,last_name,gender,hire_date,phone_number,email_adress)" +
+//                    "VALUES(?,?,?,?,?,?,?,?)");
 
 
     public EmployeeRepository() throws SQLException {
@@ -41,7 +44,11 @@ public class EmployeeRepository {
         Date hireDate = getDate();
         System.out.println("Enter employee number");
         int empNo = sc.nextInt();
-        Employee e = new Employee(empNo, firstName, lastName, gender, birthDate, hireDate);
+        System.out.println("Enter employee phone number");
+        int phoneNumber = sc.nextInt();
+        System.out.println("Enter employee email adress");
+        String emailAdress = sc.nextLine();
+        Employee e = new Employee(empNo, firstName, lastName, gender, birthDate, hireDate, phoneNumber,emailAdress);
         return e;
     }
 
@@ -62,6 +69,8 @@ public class EmployeeRepository {
         Date birthDate = e.getBirthDate();
         Date hireDate = e.getHireDate();
         int empNo = e.getEmplNo();
+        int phoneNumber =e.getPhoneNumber();
+        String emailAdress =e.getEmailAdress();
 
         // substitutie variabile
         insertEmplStm.setInt(1, empNo);
@@ -70,6 +79,8 @@ public class EmployeeRepository {
         insertEmplStm.setString(4, lastName);
         insertEmplStm.setString(5, gender);
         insertEmplStm.setDate(6, new java.sql.Date(hireDate.getTime()));
+
+        insertEmplStm.setInt(7, phoneNumber);
         insertEmplStm.setString(8, emailAdress);
 
         insertEmplStm.execute();
